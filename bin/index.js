@@ -1,5 +1,6 @@
 require('es6-promise').polyfill()
 
+var YAML = require('js-yaml').resolve
 var resolve = require('path').resolve
 var dirname = require('path').dirname
 var thenify = require('thenify')
@@ -68,7 +69,7 @@ function readData (filename) {
   return readFile(filename, 'utf8')
     .then(function (content) {
       try {
-        return JSON.parse(content)
+        return YAML.safeLoad(content)
       } catch (e) {
         return Promise.reject(new Error('Invalid JSON configuration at ' + filename))
       }
